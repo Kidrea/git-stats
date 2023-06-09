@@ -8,6 +8,6 @@
     body{
     }
     #root{
-        @apply min-h-screen bg-gray-950 justify-center flex
+        @apply h-screen bg-gray-950 
     }
 }
