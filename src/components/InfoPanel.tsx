@@ -24,9 +24,12 @@ export default function InfoPanel({ user, repos }: { user: any; repos: any }) {
                             {repos.map((repo: any) => (
                                 <React.Fragment key={repo.name}>
                                     <div className="flex flex-col border-2 border-slate-600 rounded-md p-5 space-y-2 ">
-                                        <span className="text-slate-200">
+                                        <a
+                                            className="text-blue-200 no-underline hover:underline hover:cursor-pointer"
+                                            href={repo.html_url}
+                                        >
                                             {repo.name}
-                                        </span>
+                                        </a>
                                         <span className="text-xs text-slate-400 ">
                                             {repo.description}
                                         </span>
