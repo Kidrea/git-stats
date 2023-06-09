@@ -4,40 +4,48 @@ import { useState } from 'react'
 export default function App() {
     const [enable, setEnable] = useState(false)
     const [search, setSearch] = useState('')
-    const [username, setUsername] = useState('')
+    const [user, setUser] = useState(null)
+    const [repos, setRepos] = useState(null)
     const handleSubmit = async (e: any) => {
         try {
             e.preventDefault()
-            setEnable(true)
-            const response = await fetch(
+            const userResponse = await fetch(
                 `https://api.github.com/users/${search}`
             )
-            const data = await response.json()
-            setUsername(data)
+            const userData = await userResponse.json()
+            setUser(userData)
+            const reposResponse = await fetch(
+                `https://api.github.com/users/${search}/repos?sort=updated`
+            )
+            const reposData = await reposResponse.json()
+            setRepos(reposData)
+            setEnable(true)
         } catch (error: any) {
             console.log('Error', error.message)
         }
     }
     return (
         <>
-            <div className="flex flex-row space-x-4">
+            <div className="flex flex-col space-y-2  w-full h-full   pt-12">
                 <form
                     method="post"
                     onSubmit={handleSubmit}
-                    className=" flex m-auto w-96 flex-col space-y-2 pt-2"
+                    className="flex flex-col  space-y-2 pt-2 "
                 >
-                    <div className=" pb-2 flex justify-center">
-                        <a href="#">
-                            <img
-                                src="../src/assets/github-mark-white.svg"
-                                alt=""
-                            />
-                        </a>
-                    </div>
-                    <div className=" justify-center flex bg-slate-900 flex-col p-4 rounded-xl">
-                        <div className=" text-xl  text-slate-200 flex justify-center">
-                            Estadísticas de Usuario
+                    <div className=" m-auto flex bg-slate-900 flex-col p-4 rounded-xl ">
+                        <div className=" pb-2 flex flex-row justify-center space-x-5">
+                            <a href="https://github.com/">
+                                <img
+                                    src="../src/assets/github-mark-white.svg"
+                                    alt=""
+                                    className="w-8 flex"
+                                />
+                            </a>
+                            <span className=" text-xl  text-slate-200 flex justify-center">
+                                Git Stats
+                            </span>
                         </div>
+
                         <div className="container flex flex-col  pt-2 space-y-3">
                             <label
                                 className="text-slate-200"
@@ -63,7 +71,7 @@ export default function App() {
                     </div>
                 </form>
 
-                {enable ? <InfoPanel /> : null}
+                {enable ? <InfoPanel user={user} repos={repos} /> : null}
             </div>
         </>
     )
