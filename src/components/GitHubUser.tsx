@@ -10,8 +10,6 @@ export default function App() {
             e.preventDefault()
             await fetch(`https://api.github.com/users/${search}`)
                 .then((response) => {
-                    console.log(response)
-
                     if (!response.ok) {
                         throw new Error(response.statusText)
                     }
@@ -43,7 +41,7 @@ export default function App() {
     }
     return (
         <>
-            <div className="flex flex-col space-y-2  w-full h-full   pt-12">
+            <div className="flex flex-col w-full h-full pt-12">
                 <form
                     method="post"
                     onSubmit={handleSubmit}
@@ -58,12 +56,12 @@ export default function App() {
                                     className="w-8 flex"
                                 />
                             </a>
-                            <span className=" text-xl  text-slate-200 flex justify-center">
+                            <span className=" text-xl text-slate-200 flex justify-center">
                                 Git Stats
                             </span>
                         </div>
 
-                        <div className="container flex flex-col  pt-2 space-y-3">
+                        <div className="flex flex-col pt-2 space-y-3">
                             <label
                                 className="text-slate-200"
                                 htmlFor="username_field"

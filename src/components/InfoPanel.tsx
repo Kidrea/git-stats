@@ -4,12 +4,12 @@ export default function InfoPanel({
     user,
     repos
 }: {
-    user: any | undefined
-    repos: any | undefined
+    user: any | null
+    repos: any | null
 }) {
     return (
-        <div className=" bg-slate-900 rounded-xl flex flex-row justify-center overflow-auto space-x-2 mx-10 pb-8">
-            <div className="  rounded-xl p-4 flex basis-1/5 flex-col space-y-2  text-slate-200">
+        <div className=" bg-slate-900 rounded-xl overflow-auto flex flex-row justify-center m-12 flex-wrap md:flex-nowrap">
+            <div className=" rounded-xl p-4 flex basis-3/5 md:basis-1/5   flex-col space-y-2  text-slate-200 items-center">
                 <a href={user.html_url} className="justify-center flex">
                     <img
                         src={user.avatar_url}
@@ -22,10 +22,10 @@ export default function InfoPanel({
                 <span>Seguidores {user.followers}</span>
                 <span>Repositorios públicos {user.public_repos}</span>
             </div>
-            <div className=" justify-center w-full flex">
+            <div className=" justify-center w-full flex ">
                 <div className=" flex flex-col text-slate-200 w-full ">
                     <span className="p-4">Repositorios recientes</span>
-                    <div className="p-4 repo space-y-2 overflow-y-auto">
+                    <div className="p-4 overflow-auto space-y-2">
                         <div className="grid grid-cols-2 gap-2  ">
                             {repos.map((repo: any) => (
                                 <React.Fragment key={repo.name}>
