@@ -1,6 +1,12 @@
 import React from 'react'
 
-export default function InfoPanel({ user, repos }: { user: any; repos: any }) {
+export default function InfoPanel({
+    user,
+    repos
+}: {
+    user: any | undefined
+    repos: any | undefined
+}) {
     return (
         <div className=" bg-slate-900 rounded-xl flex flex-row justify-center overflow-auto space-x-2 mx-10 pb-8">
             <div className="  rounded-xl p-4 flex basis-1/5 flex-col space-y-2  text-slate-200">
