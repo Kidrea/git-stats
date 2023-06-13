@@ -2,26 +2,43 @@ import InfoPanel from './InfoPanel'
 import { useState } from 'react'
 
 export default function App() {
-    const [enable, setEnable] = useState(false)
     const [search, setSearch] = useState('')
     const [user, setUser] = useState(null)
     const [repos, setRepos] = useState(null)
     const handleSubmit = async (e: any) => {
         try {
             e.preventDefault()
-            const userResponse = await fetch(
-                `https://api.github.com/users/${search}`
-            )
-            const userData = await userResponse.json()
-            setUser(userData)
-            const reposResponse = await fetch(
+            await fetch(`https://api.github.com/users/${search}`)
+                .then((response) => {
+                    console.log(response)
+
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+                    return response.json()
+                })
+                .then((data) => setUser(data))
+                .catch(() => {
+                    setUser(null)
+                    alert('Usuario no encontrado')
+                })
+
+            await fetch(
                 `https://api.github.com/users/${search}/repos?sort=updated`
             )
-            const reposData = await reposResponse.json()
-            setRepos(reposData)
-            setEnable(true)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+                    return response.json()
+                })
+                .then((data) => setRepos(data))
+                .catch(() => {
+                    setRepos(null)
+                    alert('Repositorios no encotrados')
+                })
         } catch (error: any) {
-            console.log('Error', error.message)
+            alert(error.message)
         }
     }
     return (
@@ -60,6 +77,7 @@ export default function App() {
                                 onChange={(e) => setSearch(e.target.value)}
                                 className="block shadow-black shadow-lg bg-black w-full rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-slate-200  placeholder:text-slate-400  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-blue-500 sm:text-sm sm:leading-6"
                                 placeholder="...usuario"
+                                required
                             ></input>
                             <button
                                 type="submit"
@@ -71,7 +89,7 @@ export default function App() {
                     </div>
                 </form>
 
-                {enable ? <InfoPanel user={user} repos={repos} /> : null}
+                {user && repos ? <InfoPanel user={user} repos={repos} /> : null}
             </div>
         </>
     )
